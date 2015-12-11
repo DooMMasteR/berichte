@@ -27,17 +27,17 @@
 \begin{document}
 \centering{\Large\textbf{Ausbildungsnachweis}}\\
 {~}\\
-\begin{tabu}to \linewidth{r l l r l}
-Nr.: & 001 & \hspace{0.7cm} & von:&Steffen Arntz \\
-Ausbildungsjahr: & 1 & & Wochenbeginn: & %%WOCHE%% \\
-Abteilung/Bereich: & \multicolumn3{l}{UCware} \\
+\begin{tabu}to \linewidth{r l c r l}
+Nr.: & 001 & \hspace{0.7cm} & von:&%%NAME%% \\
+Ausbildungsjahr: & %%YEAR%% & & Wochenbeginn: & %%WOCHE%% \\
+Abteilung/Bereich: & \multicolumn3{l}{%%DIVIS%%} \\
 \end{tabu}
+\tabulinesep=4pt
 \vspace{7mm} \\
-\begin{tabu} to \linewidth {|[2pt]X[l,0.02]|X[l,2]|X[r,0.16]|[2pt]}
+\begin{tabu} to \linewidth {|[2pt]X[c,0.02]|X[l,2]|X[r,0.16]|[2pt]}
 \tabucline[2pt]{1}
-
-\centering{\multirow{-3}{*}{\begin{sideways}\textbf{\parbox[centering]{4cm}{Ausgeführte \newline Arbeiten}}\end{sideways}}}
-\tabulinesep =13mm %%DESC%%
+\multirow{-3}{*}{\rotatebox{90}{\textbf{\parbox[centering]{4cm}{Ausgeführte \newline Arbeiten}}}}
+%%DESC%%
 \end{tabu}
 \vspace{9mm}\\
 \begin{tabu} to \textwidth {|[2pt]X[l]|X[l]|X[l]|[2pt]}
