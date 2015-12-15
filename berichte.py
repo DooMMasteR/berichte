@@ -4,8 +4,9 @@ import shutil
 import fileinput
 import subprocess
 import shlex
+import time
 
-csvfilename = 'data.csv'
+csvfilename = 'datag.csv'
 name = 'Steffen Arntz'
 abteilung = 'UCware'
 ausbildungsjahr = 2
@@ -63,6 +64,8 @@ counter = 0
 valueslist = None
 svalues = None
 newfile = None
+descriptiontex = None
+proclist = []
 
 for values in csvlist:
     # print(values)
@@ -83,7 +86,7 @@ for values in csvlist:
         if newfile:
             newfile.close()
         if counter > 0:
-            subprocess.Popen(shlex.split('pdflatex ' + newfilename))
+            proclist.append(subprocess.Popen(shlex.split('pdflatex ' + newfilename)))
         counter += 1
         newfilename = str(counter).zfill(3) + '.tex'
         newfile = open(newfilename, mode='w')
@@ -117,7 +120,9 @@ if schooltex or descriptiontex:
 if newfile:
     newfile.close()
 if counter > 0:
-    subprocess.Popen(shlex.split('pdflatex ' + newfilename))
+    proclist.append(subprocess.Popen(shlex.split('pdflatex ' + newfilename)))
+
+[p.wait() for p in proclist]
 
 proc = subprocess.Popen(shlex.split('find . -name "*.log" -delete'))
 proc.communicate()
