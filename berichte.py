@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 import csv
-import shutil
-import fileinput
 import subprocess
 import shlex
-import time
-
+import os
 csvfilename = 'datag.csv'
 name = 'Steffen Arntz'
 abteilung = 'UCware'
@@ -66,6 +63,7 @@ svalues = None
 newfile = None
 descriptiontex = None
 proclist = []
+FNULL = open(os.devnull, 'w')
 
 for values in csvlist:
     # print(values)
@@ -86,7 +84,7 @@ for values in csvlist:
         if newfile:
             newfile.close()
         if counter > 0:
-            proclist.append(subprocess.Popen(shlex.split('pdflatex ' + newfilename)))
+            proclist.append(subprocess.Popen(shlex.split('pdflatex ' + newfilename), stdout=FNULL, stderr=subprocess.STDOUT))
         counter += 1
         newfilename = str(counter).zfill(3) + '.tex'
         newfile = open(newfilename, mode='w')
@@ -120,11 +118,13 @@ if schooltex or descriptiontex:
 if newfile:
     newfile.close()
 if counter > 0:
-    proclist.append(subprocess.Popen(shlex.split('pdflatex ' + newfilename)))
+    proclist.append(subprocess.Popen(shlex.split('pdflatex ' + newfilename), stdout=FNULL, stderr=subprocess.STDOUT))
 
+print('Waiting for all processes to finish.')
 [p.wait() for p in proclist]
+print('Done. Now cleaning up.')
 
-proc = subprocess.Popen(shlex.split('find . -name "*.log" -delete'))
-proc.communicate()
-proc = subprocess.Popen(shlex.split('find . -name "*.aux" -delete'))
-proc.communicate()
+proc1 = subprocess.Popen(shlex.split('find . -name "*.log" -delete'))
+proc2 = subprocess.Popen(shlex.split('find . -name "*.aux" -delete'))
+proc1.wait()
+proc2.wait()
