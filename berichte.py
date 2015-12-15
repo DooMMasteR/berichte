@@ -6,8 +6,8 @@ import subprocess
 import shlex
 
 csvfilename = 'data.csv'
-name = 'Gerrit Kaul'
-abteilung = 'IS-E'
+name = 'Steffen Arntz'
+abteilung = 'UCware'
 ausbildungsjahr = 2
 subjects = ['Deutsch', 'ITS-A', 'ITS-T', 'Englisch', 'AWSYS', 'Politik', 'BWPRO']
 
@@ -106,10 +106,18 @@ for values in csvlist:
 
 if valueslist is not None and valueslist != []:
     descriptiontex = descriptionlinebuild(valueslist)
+print("New Date, new Week")
+schooltex = ''
+if svalues is not None and svalues != []:
+    schooltex = schooltexbuild(svalues)
+if schooltex or descriptiontex:
     readfile = open(newfilename, 'rt')
     for line in readfile:
-        newfile.write(line.replace('%%DESC%%', descriptiontex))
+        newfile.write(line.replace('%%DESC%%', descriptiontex).replace('%%SCHOOL%%', schooltex))
+    newfile.seek(0)
+if newfile:
     newfile.close()
+if counter > 0:
     proc = subprocess.Popen(shlex.split('pdflatex ' + newfilename))
     proc.communicate()
 
