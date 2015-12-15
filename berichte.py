@@ -15,11 +15,11 @@ with open(csvfilename, 'rb') as f:
     reader = csv.reader(f)
     csvlist = list(reader)
 
-print csvlist
+# print csvlist
 
 
 def descriptionlinebuild(lvalues):
-    print('Building Desc')
+    # print('Building Desc')
     description = ''
     if len(lvalues[len(lvalues) - 1]) > 3:
         hoursum = lvalues[len(lvalues) - 1][3]
@@ -71,7 +71,7 @@ for values in csvlist:
         descriptiontex = ''
         if valueslist is not None and valueslist != []:
             descriptiontex = descriptionlinebuild(valueslist)
-        print("New Date, new Week")
+        # print("New Date, new Week")
         schooltex = ''
         if svalues is not None and svalues != []:
             schooltex = schooltexbuild(svalues)
@@ -83,8 +83,7 @@ for values in csvlist:
         if newfile:
             newfile.close()
         if counter > 0:
-            proc = subprocess.Popen(shlex.split('pdflatex ' + newfilename))
-            proc.communicate()
+            subprocess.Popen(shlex.split('pdflatex ' + newfilename))
         counter += 1
         newfilename = str(counter).zfill(3) + '.tex'
         newfile = open(newfilename, mode='w')
@@ -98,15 +97,15 @@ for values in csvlist:
         newfile.seek(0)
     elif values[0] == '' and values[1] != '':
         values[1] = str(values[1]).replace('&', '\&')
-        print(values)
+        # print(values)
         valueslist.append(values)
     elif values[0] in subjects and values[1] and values[1] != '':
-        print(values)
+        # print(values)
         svalues.append([values[0], values[1]])
 
 if valueslist is not None and valueslist != []:
     descriptiontex = descriptionlinebuild(valueslist)
-print("New Date, new Week")
+# print("New Date, new Week")
 schooltex = ''
 if svalues is not None and svalues != []:
     schooltex = schooltexbuild(svalues)
@@ -118,8 +117,7 @@ if schooltex or descriptiontex:
 if newfile:
     newfile.close()
 if counter > 0:
-    proc = subprocess.Popen(shlex.split('pdflatex ' + newfilename))
-    proc.communicate()
+    subprocess.Popen(shlex.split('pdflatex ' + newfilename))
 
 proc = subprocess.Popen(shlex.split('find . -name "*.log" -delete'))
 proc.communicate()
